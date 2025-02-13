@@ -1,39 +1,63 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import {
+  Tabs,
+  useLocalSearchParams,
+  useFocusEffect,
+  router,
+  Stack,
+  useNavigation,
+} from "expo-router";
+import {
+  useRoute,
+  useIsFocused,
+  useNavigationState,
+} from "@react-navigation/native";
+import React, { useState, useCallback, useEffect } from "react";
+import { Ionicons } from "@expo/vector-icons";
+import { View, Text, StyleSheet } from "react-native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+export default function Layout() {
+  // const tabName = useNavigationState((state) => state.routes[state.index].name);
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
-
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
+  // console.log(tabName);
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <Tabs
+      screenOptions={({ route }) => ({
+        tabBarStyle: {
+          backgroundColor: "#d9d9d9",
+        },
+        tabBarHideOnKeyboard: true,
+        headerShown: route.name === "index" ? false : true,
+      })}
+    >
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: "Home",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home" size={size} color={color}></Ionicons>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="posts"
+        options={{
+          title: "Posts",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="list" size={size} color={color}></Ionicons>
+          ),
+        }}
+      />
+    </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
