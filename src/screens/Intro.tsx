@@ -8,7 +8,7 @@ import {
   ImageSourcePropType,
 } from "react-native";
 import { HelloWave } from "../components/HelloWave";
-import Login from "../components/LoginInput";
+import LoginInput from "../components/LoginInput";
 
 const homepageLogo = require("../../assets/images/anchor-logo.png");
 
@@ -51,7 +51,7 @@ const Intro: React.FC<IntroProps> = ({ logoIcon }) => {
             </Text>
           </View>
         </View>
-        <Login></Login>
+        <LoginInput></LoginInput>
       </View>
     </View>
   );
